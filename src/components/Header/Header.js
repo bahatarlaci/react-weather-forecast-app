@@ -7,7 +7,7 @@ export default function Header() {
         <>
             <Navbar className='mb-sm-3 mt-sm-3' bg="dark" variant="dark">
                 <Container className='align-items-center'>
-                    <Navbar.Brand href="/">Weather Forecast</Navbar.Brand>
+                    <Link className='logoLink' to="/">Weather Forecast</Link>
                     <Nav className="me-end">
                         {location.pathname !== '/' && <Link to="/">Anasayfaya Dön</Link>}
                     </Nav>

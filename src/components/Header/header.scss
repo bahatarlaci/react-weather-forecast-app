@@ -1,9 +1,10 @@
 //bootstrap react navbar style
 .navbar {
-    .navbar-brand {
+    .logoLink {
         font-size: 1.5rem;
         font-weight: 700;
         color: #fff;
+        text-decoration: none;
     }
     .navbar-nav a {
         font-size: 1rem;
