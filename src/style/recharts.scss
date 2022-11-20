@@ -1,0 +1,23 @@
+.custom-tooltip {
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #808080;
+  opacity: 0.9;
+  outline: none;
+  border: 0;
+  .label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .intro {
+    font-size: 10px;
+    color: #808080;
+    margin-bottom: 5px;
+  }
+  .desc {
+    margin-bottom: 5px;
+  }
+}
