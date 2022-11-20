@@ -1,5 +1,5 @@
 import { Container, Navbar, Nav } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import './header.scss';
 export default function Header() {
     const location = useLocation();
@@ -9,7 +9,7 @@ export default function Header() {
                 <Container className='align-items-center'>
                     <Navbar.Brand href="/">Weather Forecast</Navbar.Brand>
                     <Nav className="me-end">
-                        {location.pathname !== '/' && <Nav.Link href="/">Anasayfaya Dön</Nav.Link>}
+                        {location.pathname !== '/' && <Link to="/">Anasayfaya Dön</Link>}
                     </Nav>
                 </Container>
             </Navbar>
