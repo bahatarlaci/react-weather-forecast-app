@@ -5,6 +5,7 @@ import { Container, Row } from 'react-bootstrap';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Helmet } from 'react-helmet';
 import '../../style/recharts.scss';
+import { formatPopulation, celciusFormat, dateFormat, dateFormatOnlyDay, changeTitle } from '../../utils';
 
 export default function CityDetail() {
     const { id } = useParams();
@@ -20,26 +21,7 @@ export default function CityDetail() {
         if(city)
             WeatherService.getForecast(city.latitude, city.longitude).then((data) => { setWeather(data) });
     }, [city])
-
-    const celciusFormat = (value) => {
-        return `${value}°C`;
-    }
-
-    const dateFormat = (unixDate) => {
-        const date = new Date(unixDate * 1000);
-        const month = date.toLocaleString('default', { month: 'long' });
-        const hour = date.toLocaleString('default', { hour: 'numeric', minute: 'numeric' });
-        return `${date.getDate()} ${month} ${hour}`;
-    }
-
-    const dateFormatOnlyDay = (unixDate) => {
-        const date = new Date(unixDate * 1000);
-        const month = date.toLocaleString('default', { month: 'long' });
-        const day = date.toLocaleString('default', { weekday: 'long' });
-        return `${date.getDate()} ${month} ${day}`;
-    }
     
-    //custom tooltip for chart celcius format and date format
     const CustomTooltip = ({ active, payload, label }) => {
         if (active) {
           return (
@@ -54,22 +36,33 @@ export default function CityDetail() {
         return null;
     }
 
-    //helmet change title for city detail page
-    const changeTitle = () => {
-        if(city)
-            return <title>{city.name} | Weather Forecast</title>
-    }
-
-
     return (
         <>
             <Helmet>
-                {changeTitle()}
+                {changeTitle(city ? city.name : 'Şehir')}
             </Helmet>
+            
             {city && weather &&
                 <Container className='p-5 bg-light'>
-                    <Row className='text-center'>
-                        <h4 className='mb-3'>{city.id}, {city.name}, {city.region} Bölgesi</h4>
+                    <Row className='mb-4'>
+                        <h5 className='mb-4'>Şehir Bilgisi</h5>
+                        <h6 className='fw-bold'>{city.name}, {city.region} Bölgesi</h6>
+                        <h6 className="text-danger fw-bold">Plaka Kodu: {city.id}</h6>
+                        <h6 className="fw-bold mb-3 text-primary">Nufus: {formatPopulation(city.population)}</h6>
+                    </Row>
+                    <Row className='mb-5'>
+                        <h5 className='mb-4'>Saatlik Grafik</h5>
+                        <ResponsiveContainer className='p-0' width="100%" height={300}>
+                        <AreaChart data={weather.hourly}>
+                            <CartesianGrid />
+                            <XAxis dataKey='dt' fontSize={14} fontWeight={400} tickFormatter={dateFormat} formatter={dateFormat} tickMargin={15} />
+                            <YAxis fontSize={14} fontWeight={500} color='#fff' tickFormatter={celciusFormat} tickMargin={10} />
+                            <Tooltip content={<CustomTooltip />} />
+                            <Area type="monotone" dataKey="temp" stroke="#ffc658" fill="#ffc658" formatter={celciusFormat}/>
+                            <Area type="monotone" dataKey="feels_like" stroke="#82ca9d" fill="#82ca9d" formatter={celciusFormat} />
+                            <Area type="monotone" dataKey="wind_speed" stroke="#2077b4" fill="#2077b4"/>
+                        </AreaChart>
+                        </ResponsiveContainer>
                     </Row>
                     <Row>
                         <h5 className='mb-4'>Hava Durumu Tahmini</h5>
@@ -87,20 +80,6 @@ export default function CityDetail() {
                                 </div>
                             </div>
                         ))}
-                    </Row>
-                    <Row>
-                        <h5 className='mb-4'>Saatlik Sıcaklık Durum Grafiği</h5>
-                        <ResponsiveContainer className='p-0' width="100%" height={300}>
-                        <AreaChart data={weather.hourly}>
-                            <CartesianGrid />
-                            <XAxis dataKey='dt' fontSize={14} fontWeight={400} tickFormatter={dateFormat} formatter={dateFormat} tickMargin={15} />
-                            <YAxis fontSize={14} fontWeight={500} color='#fff' tickFormatter={celciusFormat} tickMargin={10} />
-                            <Tooltip content={<CustomTooltip />} />
-                            <Area type="monotone" dataKey="temp" stroke="#ffc658" fill="#ffc658" formatter={celciusFormat}/>
-                            <Area type="monotone" dataKey="feels_like" stroke="#82ca9d" fill="#82ca9d" formatter={celciusFormat} />
-                            <Area type="monotone" dataKey="wind_speed" stroke="#2077b4" fill="#2077b4"/>
-                        </AreaChart>
-                        </ResponsiveContainer>
                     </Row>
                 </Container>
             }
