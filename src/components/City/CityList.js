@@ -10,10 +10,6 @@ export default function CityList() {
         CityService.getCitys().then((data) => setCities(data));
     }, []);
 
-    const formatPopulation = (population) => {
-        return population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    };
-
     return (
         <>
             <Helmet>
@@ -34,9 +30,7 @@ export default function CityList() {
                                     <div className="card-body">
                                         <h5 className="card-title text-dark">{city.name}</h5>
                                         <h6 className="card-subtitle mb-2 text-muted">{city.region} Bölgesi</h6>
-                                        <h6 className="card-text text-danger fw-bold">Plaka Kodu: {city.id}</h6>
-                                        <h6 className="card-text fw-bold mb-3">Nufus: {formatPopulation(city.population)}</h6>
-                                        <button className="btn btn-outline-primary">Şehir Detayı</button>
+                                        <button className="btn btn-outline-primary">Görüntüle</button>
                                     </div>
                                 </Link>
                             </div>
