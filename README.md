@@ -1,5 +1,3 @@
-# My Weather Forecast Project
-
-Welcome my project.
+# Weather Forecast App
 
 https://weather-forecast-bt.netlify.app/
